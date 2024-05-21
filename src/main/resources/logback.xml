@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration scan="true">
+
+    <property name="timeZone" value="${TZ:-America/Buenos_Aires}"/>
+
+    <springProperty name="appName"
+                    source="spring.application.name" defaultValue="myLogFile"
+                    scope="context"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <context>
+                    ${appName}
+                </context>
+                <timestamp>
+                    <fieldName>timestamp</fieldName>
+                    <pattern>yyyy-MM-dd HH:mm:ss,SSS</pattern>
+                    <timeZone>${timeZone}</timeZone>
+                </timestamp>
+                <logLevel/>
+                <threadName/>
+                <mdc/>
+                <arguments>
+                    <includeNonStructuredArguments>false</includeNonStructuredArguments>
+                </arguments>
+                <message/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</Configuration>
